@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.mathandcoffee.cscodetest.R
 import com.mathandcoffee.cscodetest.databinding.FragmentLoginBinding
+import com.mathandcoffee.cscodetest.ui.products.ProductsFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -29,11 +30,9 @@ class LoginFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-
+    ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -65,8 +64,10 @@ class LoginFragment : Fragment() {
                 loginResult.error?.let {
                     showLoginFailed(it)
                 }
-                loginResult.success?.let {
-                    showDashboard()
+                loginResult.success.let {
+                    if (it) {
+                        showDashboard()
+                    }
                 }
             })
 
@@ -107,10 +108,19 @@ class LoginFragment : Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        loginViewModel.handleAutoLogin()
+    }
+
     private fun showDashboard() {
         val welcome = getString(R.string.welcome)
         val appContext = context?.applicationContext ?: return
         Toast.makeText(appContext, welcome, Toast.LENGTH_LONG).show()
+        val transaction = activity?.supportFragmentManager?.beginTransaction()
+        transaction?.replace(R.id.navigation_host, ProductsFragment())
+        transaction?.addToBackStack("Log Out")
+        transaction?.commit()
     }
 
     private fun showLoginFailed(errorCode: Int) {

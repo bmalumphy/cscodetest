@@ -17,9 +17,15 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        hideNavigationBar()
+
         val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.container, LoginFragment())
+        transaction.replace(R.id.navigation_host, LoginFragment())
         transaction.disallowAddToBackStack()
         transaction.commit()
+    }
+
+    private fun hideNavigationBar() {
+        supportActionBar?.hide()
     }
 }

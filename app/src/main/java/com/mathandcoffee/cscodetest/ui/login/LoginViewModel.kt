@@ -25,7 +25,7 @@ class LoginViewModel @Inject constructor(
     private val _loginResult = MutableLiveData<LoginResult>()
     val loginResult: LiveData<LoginResult> = _loginResult
 
-    init {
+    fun handleAutoLogin() {
         if (authenticationDataManager.hasCurrentCredentials()) {
             _loginResult.value = LoginResult(true)
         }

@@ -1,6 +1,7 @@
 package com.mathandcoffee.cscodetest.http
 
 import com.mathandcoffee.cscodetest.rest.AuthenticationAPIService
+import com.mathandcoffee.cscodetest.rest.ProductAPIService
 import com.squareup.moshi.Moshi
 import dagger.Module
 import dagger.Provides
@@ -30,5 +31,11 @@ object RetrofitProvider {
     @Singleton
     fun provideAuthenticationAPIService(retrofit: Retrofit): AuthenticationAPIService {
         return retrofit.create(AuthenticationAPIService::class.java)
+    }
+
+    @Provides
+    @Singleton
+    fun provideProductsAPIService(retrofit: Retrofit): ProductAPIService {
+        return retrofit.create(ProductAPIService::class.java)
     }
 }
