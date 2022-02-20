@@ -10,7 +10,9 @@ import com.mathandcoffee.cscodetest.auth.AuthenticationDataManager
 import com.mathandcoffee.cscodetest.auth.AuthenticationFailureException
 import com.mathandcoffee.cscodetest.auth.AuthenticationManager
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -32,12 +34,16 @@ class LoginViewModel @Inject constructor(
     }
 
     fun login(username: String, password: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             try {
                 authenticationManager.login(username, password).await()
-                _loginResult.value = LoginResult(true)
+                withContext(Dispatchers.Main) {
+                    _loginResult.value = LoginResult(true)
+                }
             } catch(exception: AuthenticationFailureException) {
-                _loginResult.value = LoginResult(false, exception.errorCode)
+                withContext(Dispatchers.Main) {
+                    _loginResult.value = LoginResult(false, exception.errorCode)
+                }
             }
         }
     }

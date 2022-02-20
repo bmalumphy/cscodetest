@@ -1,12 +1,10 @@
 package com.mathandcoffee.cscodetest.ui.products.recycler_view
 
 import android.text.SpannableString
-import android.text.style.AbsoluteSizeSpan
 import android.text.style.RelativeSizeSpan
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.core.text.set
 import androidx.recyclerview.widget.AsyncListDiffer
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
@@ -37,17 +35,7 @@ class ProductsAdapter: RecyclerView.Adapter<ProductsAdapter.ProductViewHolder>()
     override fun onBindViewHolder(holder: ProductViewHolder, position: Int) {
         val product = differ.currentList[position]
         with(product) {
-            var name = this.productName
-            if (name.isEmpty()) {
-                name = "Nameless Product"
-            }
-
-            var price = "$${this.shippingPrice}.00"
-            if (this.shippingPrice == "0") {
-                price = "FREE"
-            }
-            val priceText = SpannableString("$name    $price")
-            priceText.setSpan(RelativeSizeSpan(0.75f), this.productName.length, priceText.length, 0)
+            val priceText = getTitleString(this)
             holder.binding.productName.setText(priceText, TextView.BufferType.SPANNABLE)
             holder.binding.productDescription.text = this.description
         }
@@ -55,5 +43,20 @@ class ProductsAdapter: RecyclerView.Adapter<ProductsAdapter.ProductViewHolder>()
 
     override fun getItemCount(): Int {
         return differ.currentList.size
+    }
+
+    private fun getTitleString(product: Product): SpannableString {
+        var name = product.productName
+        if (name.isEmpty()) {
+            name = "Nameless Product"
+        }
+
+        var price = "$${product.shippingPrice}.00"
+        if (product.shippingPrice == "0") {
+            price = "FREE"
+        }
+        val string = SpannableString("$name    $price")
+        string.setSpan(RelativeSizeSpan(0.75f), name.length, string.length, 0)
+        return string
     }
 }

@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AbsListView
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -24,6 +25,8 @@ class ProductsFragment : Fragment() {
 
     private val adapter = ProductsAdapter()
 
+    private var isLoading = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,6 +35,7 @@ class ProductsFragment : Fragment() {
         binding = ProductsFragmentBinding.inflate(inflater, container, false)
 
         binding.recyclerView.adapter = adapter
+        binding.recyclerView.addOnScrollListener(scrollListener)
 
         binding.logoutButton.setOnClickListener {
             viewModel.logout()
@@ -47,11 +51,29 @@ class ProductsFragment : Fragment() {
         super.onStart()
 
         viewModel.products.observe(viewLifecycleOwner, { products ->
+            isLoading = false
             adapter.differ.submitList(products)
         })
 
         lifecycleScope.launch {
             viewModel.pageProducts()
+        }
+    }
+
+    private val scrollListener = object : RecyclerView.OnScrollListener() {
+        override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+            super.onScrolled(recyclerView, dx, dy)
+
+            val layoutManager = recyclerView.layoutManager as LinearLayoutManager
+            val lastVisibleItemPosition = layoutManager.findLastVisibleItemPosition()
+            val totalItemCount = layoutManager.itemCount
+            val shouldPaginate = lastVisibleItemPosition == totalItemCount - 5 && !isLoading
+            if(shouldPaginate) {
+                isLoading = true
+                lifecycleScope.launch {
+                    viewModel.pageProducts()
+                }
+            }
         }
     }
 }
