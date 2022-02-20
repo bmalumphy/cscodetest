@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-class GetProductsResponse(
+data class GetProductsResponse(
     @Json(name = COUNT_KEY)
     val count: Int,
     @Json(name = PRODUCTS_KEY)

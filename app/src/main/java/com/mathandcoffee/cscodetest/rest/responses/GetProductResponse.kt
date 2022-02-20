@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-class GetProductResponse(
+data class GetProductResponse(
     @Json(name = PRODUCT_KEY)
     val product: Product
 ) {

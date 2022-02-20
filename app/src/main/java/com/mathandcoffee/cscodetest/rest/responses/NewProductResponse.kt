@@ -5,7 +5,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-class NewProductResponse(
+data class NewProductResponse(
     @Json(name = MESSAGE_KEY)
     val message: String,
     @Json(name = PRODUCT_ID_KEY)

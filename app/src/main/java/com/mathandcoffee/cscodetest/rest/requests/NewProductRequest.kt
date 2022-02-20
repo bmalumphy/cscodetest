@@ -4,7 +4,7 @@ import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
 
 @JsonClass(generateAdapter = true)
-class NewProductRequest(
+data class NewProductRequest(
     @Json(name = BAD_KEY)
     val badKey: String,
     @Json(name = NAME_KEY)
