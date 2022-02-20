@@ -3,6 +3,7 @@ package com.mathandcoffee.cscodetest.ui.products.recycler_view
 import android.text.SpannableString
 import android.text.style.RelativeSizeSpan
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.AsyncListDiffer
@@ -11,9 +12,17 @@ import androidx.recyclerview.widget.RecyclerView
 import com.mathandcoffee.cscodetest.databinding.ProductCellBinding
 import com.mathandcoffee.cscodetest.rest.data.Product
 
-class ProductsAdapter: RecyclerView.Adapter<ProductsAdapter.ProductViewHolder>() {
+class ProductsAdapter(
+    private val deleteListener: (view: View, position: Int) -> Unit
+): RecyclerView.Adapter<ProductsAdapter.ProductViewHolder>() {
 
-    inner class ProductViewHolder(val binding: ProductCellBinding): RecyclerView.ViewHolder(binding.root)
+    inner class ProductViewHolder(val binding: ProductCellBinding): RecyclerView.ViewHolder(binding.root) {
+        init {
+            binding.root.setOnClickListener {
+                deleteListener(it, adapterPosition)
+            }
+        }
+    }
 
     private val differCallback = object: DiffUtil.ItemCallback<Product>() {
         override fun areItemsTheSame(oldItem: Product, newItem: Product): Boolean {
