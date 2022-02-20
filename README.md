@@ -44,9 +44,9 @@ from one endpoint more than another. Currently waiting on clarification on this 
 
 ## TODO
 
-[ ] Evaluate Creation function given API limitations, and upon fixes on the backend implementing a Fragment to allow for manual Product creations
-[ ] Basic Unit Tests around ViewModels/Managers
-[ ] Product Details Fragment
+- [ ] Evaluate Creation function given API limitations, and upon fixes on the backend implementing a Fragment to allow for manual Product creations
+- [ ] Basic Unit Tests around ViewModels/Managers
+- [ ] Product Details Fragment
 
 ## Tech Debt
 
