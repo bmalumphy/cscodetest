@@ -7,14 +7,13 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.flow.MutableSharedFlow
-import kotlinx.coroutines.flow.SharedFlow
-import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.withContext
 import okhttp3.Credentials
 import javax.inject.Singleton
 
 interface AuthenticationManager {
+    fun currentToken(): String?
+    fun hasCurrentCredentials(): Boolean
     suspend fun login(email: String, password: String): CompletableDeferred<String>
     fun revoke()
 }
@@ -23,6 +22,9 @@ private class AuthenticationManagerImpl(
     private val authenticationAPIService: AuthenticationAPIService,
     private val authenticationDataManager: AuthenticationDataManager
 ): AuthenticationManager {
+
+    override fun currentToken(): String? = authenticationDataManager.getCurrentCredentials()
+    override fun hasCurrentCredentials(): Boolean = authenticationDataManager.hasCurrentCredentials()
 
     override suspend fun login(email: String, password: String): CompletableDeferred<String> {
         val deferred = CompletableDeferred<String>()

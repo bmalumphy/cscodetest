@@ -1,6 +1,6 @@
 package com.mathandcoffee.cscodetest.ui.products
 
-import com.mathandcoffee.cscodetest.auth.AuthenticationDataManager
+import com.mathandcoffee.cscodetest.auth.AuthenticationManager
 import com.mathandcoffee.cscodetest.rest.ProductAPIService
 import com.mathandcoffee.cscodetest.rest.data.Product
 import com.mathandcoffee.cscodetest.rest.requests.NewProductRequest
@@ -32,7 +32,7 @@ interface ProductUpdateManager {
 }
 
 private class ProductUpdateManagerImpl(
-    private val authenticationDataManager: AuthenticationDataManager,
+    private val authenticationManager: AuthenticationManager,
     private val productAPIService: ProductAPIService
 ): ProductUpdateManager {
 
@@ -45,7 +45,7 @@ private class ProductUpdateManagerImpl(
     override suspend fun getProduct(id: Int): CompletableDeferred<Product?> {
         val deferred = CompletableDeferred<Product?>()
         withContext(Dispatchers.IO) {
-            val authToken = authenticationDataManager.getCurrentCredentials()
+            val authToken = authenticationManager.currentToken()
             if (authToken == null) {
                 deferred.complete(null)
                 return@withContext
@@ -62,7 +62,7 @@ private class ProductUpdateManagerImpl(
         brand: String,
         shippingPriceCents: Int
     ) {
-        val authToken = authenticationDataManager.getCurrentCredentials() ?: return
+        val authToken = authenticationManager.currentToken() ?: return
         withContext(Dispatchers.IO) {
             val response = productAPIService.createProduct(
                 authToken,
@@ -74,7 +74,7 @@ private class ProductUpdateManagerImpl(
     }
 
     override suspend fun deleteProduct(id: Int) {
-        val authToken = authenticationDataManager.getCurrentCredentials() ?: return
+        val authToken = authenticationManager.currentToken() ?: return
         withContext(Dispatchers.IO) {
             val response = productAPIService.deleteProduct(id, authToken)
             val deletedId = response.body()?.productId ?: return@withContext
@@ -90,9 +90,9 @@ object ProductUpdateManagerProvider {
     @Provides
     @Singleton
     fun provideProductUpdateManager(
-        authenticationDataManager: AuthenticationDataManager,
+        authenticationManager: AuthenticationManager,
         productAPIService: ProductAPIService
     ): ProductUpdateManager {
-        return ProductUpdateManagerImpl(authenticationDataManager, productAPIService)
+        return ProductUpdateManagerImpl(authenticationManager, productAPIService)
     }
 }

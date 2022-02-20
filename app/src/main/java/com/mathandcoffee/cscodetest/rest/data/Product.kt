@@ -2,7 +2,6 @@ package com.mathandcoffee.cscodetest.rest.data
 
 import com.squareup.moshi.Json
 import com.squareup.moshi.JsonClass
-import java.net.URL
 
 @JsonClass(generateAdapter = true)
 data class Product(

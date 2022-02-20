@@ -4,7 +4,6 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.mathandcoffee.cscodetest.auth.AuthenticationDataManager
 import com.mathandcoffee.cscodetest.auth.AuthenticationManager
 import com.mathandcoffee.cscodetest.rest.ProductAPIService
 import com.mathandcoffee.cscodetest.rest.data.Product
@@ -16,7 +15,6 @@ import javax.inject.Inject
 class ProductsViewModel @Inject constructor(
     private val productUpdateManager: ProductUpdateManager,
     private val productAPIService: ProductAPIService,
-    private val authenticationDataManager: AuthenticationDataManager,
     private val authenticationManager: AuthenticationManager
 ) : ViewModel() {
 
@@ -56,7 +54,7 @@ class ProductsViewModel @Inject constructor(
 
     suspend fun pageProducts() {
         _products.value = withContext(Dispatchers.IO) {
-            val authToken = authenticationDataManager.getCurrentCredentials() ?: return@withContext _products.value
+            val authToken = authenticationManager.currentToken() ?: return@withContext _products.value
             val response = productAPIService.getProducts(authToken, page, 20)
             val body = response.body() ?: return@withContext _products.value
             page++
