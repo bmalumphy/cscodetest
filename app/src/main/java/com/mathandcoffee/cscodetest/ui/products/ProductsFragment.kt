@@ -14,6 +14,7 @@ import com.mathandcoffee.cscodetest.R
 import com.mathandcoffee.cscodetest.databinding.ProductsFragmentBinding
 import com.mathandcoffee.cscodetest.rest.data.Product
 import com.mathandcoffee.cscodetest.ui.login.LoginFragment
+import com.mathandcoffee.cscodetest.ui.products.new_product.NewProductFragment
 import com.mathandcoffee.cscodetest.ui.products.recycler_view.ProductsAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
@@ -62,15 +63,17 @@ class ProductsFragment : Fragment() {
         binding.recyclerView.addOnScrollListener(scrollListener)
 
         binding.createButton.setOnClickListener {
-            lifecycleScope.launch {
-                viewModel.createRandomProduct()
-            }
+            val transaction = activity?.supportFragmentManager?.beginTransaction()
+            transaction?.replace(R.id.navigation_host, NewProductFragment())
+            transaction?.disallowAddToBackStack()
+            transaction?.commit()
         }
 
         binding.logoutButton.setOnClickListener {
             viewModel.logout()
             val transaction = activity?.supportFragmentManager?.beginTransaction()
             transaction?.replace(R.id.navigation_host, LoginFragment())
+            transaction?.disallowAddToBackStack()
             transaction?.commit()
         }
 

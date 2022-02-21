@@ -14,6 +14,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
 import kotlinx.coroutines.withContext
+import timber.log.Timber
 import javax.inject.Singleton
 
 interface ProductUpdateManager {
@@ -79,6 +80,10 @@ class ProductUpdateManagerImpl(
         val authToken = authenticationManager.currentToken() ?: return
         withContext(dispatcher) {
             val response = productAPIService.deleteProduct(id, authToken)
+            if (!response.isSuccessful) {
+                Timber.tag("PRODUCTUPDATESERVICE").e("Received bad response from server with error: ${response.errorBody()}")
+                return@withContext
+            }
             val deletedId = response.body()?.productId ?: return@withContext
             _itemWasDeletedWithId.emit(deletedId)
         }

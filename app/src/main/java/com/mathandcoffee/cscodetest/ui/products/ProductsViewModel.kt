@@ -9,6 +9,7 @@ import com.mathandcoffee.cscodetest.rest.ProductAPIService
 import com.mathandcoffee.cscodetest.rest.data.Product
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
+import timber.log.Timber
 import javax.inject.Inject
 
 @HiltViewModel
@@ -44,10 +45,6 @@ class ProductsViewModel @Inject constructor(
         }
     }
 
-    suspend fun createRandomProduct() {
-        productUpdateManager.createProduct("Bryans Test", "This is a test", "Ambidextrous", "IHOP", 100)
-    }
-
     suspend fun deleteProduct(id: Int) {
         productUpdateManager.deleteProduct(id)
     }
@@ -56,6 +53,10 @@ class ProductsViewModel @Inject constructor(
         _products.value = withContext(Dispatchers.IO) {
             val authToken = authenticationManager.currentToken() ?: return@withContext _products.value
             val response = productAPIService.getProducts(authToken, page, 20)
+            if (!response.isSuccessful) {
+                Timber.tag("PRODUCTVIEWMODEL").e("Received bad response from server with error: ${response.errorBody()}")
+                return@withContext _products.value
+            }
             val body = response.body() ?: return@withContext _products.value
             page++
             _products.value?.plus(body.products)

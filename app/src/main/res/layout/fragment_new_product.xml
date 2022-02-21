@@ -3,7 +3,85 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".ui.edit_product.EditProductFragment">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".ui.products.new_product.NewProductFragment">
+
+    <EditText
+        android:id="@+id/productNameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="@string/product_name"
+        android:autofillHints="name"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/descriptionTextView"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/productNameEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="@string/product_description"
+        android:autofillHints=""
+        android:inputType="text"/>
+
+    <EditText
+        android:id="@+id/styleEditText"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/descriptionTextView"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="@string/product_style"
+        android:autofillHints="name"
+        android:inputType="text" />
+    <EditText
+        android:id="@+id/brandEditText"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/styleEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="@string/product_brand"
+        android:autofillHints="name"
+        android:inputType="text" />
+    <EditText
+        android:id="@+id/shippingPriceEditText"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/brandEditText"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:hint="@string/shipping_price"
+        android:autofillHints="postalCode"
+        android:inputType="number" />
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="@dimen/buttonWidth"
+        android:layout_height="75dp"
+        android:background="@color/design_default_color_background"
+        android:text="@string/back"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginStart="16dp"/>
+
+    <Button
+        android:id="@+id/createProductButton"
+        android:layout_width="160dp"
+        android:layout_height="75dp"
+        android:text="@string/create_product"
+        android:background="@color/design_default_color_background"
+        app:tint="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="16dp"
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/create_product" />
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
