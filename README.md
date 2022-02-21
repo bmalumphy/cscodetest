@@ -45,8 +45,7 @@ from one endpoint more than another. Currently waiting on clarification on this 
 
 - [x] Architectural Smoothing with Product related services/Tracking current Auth Token
 - [ ] Evaluate Creation function given API limitations, and upon fixes on the backend implementing a Fragment to allow for manual Product creations
-- [ ] Basic Unit Tests around ViewModels/Managers
-- [ ] Product Details Fragment
+- [x] Basic Unit Tests around Managers
 
 ## Tech Debt
 
