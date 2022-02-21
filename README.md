@@ -50,7 +50,7 @@ Once in the dashboard, current implementations have the following series of oper
 
 1. Pull down and view Products listed in User's `/products` endpoint. These results are paginated in clumps of 20, and will paginate automatically once the `RecyclerView` gets within 5 products of the last Product currently in the List.
 2. Logout to return to the `LoginFragment`.
-3. Add a Mock item to the `/product` endpoint.
+3. Add an item to the `/product` endpoint.
 4. Delete an item in the product's list via an `AlertDialog` and deleting via the `/product` endpoint.
 
 ## API Issues
