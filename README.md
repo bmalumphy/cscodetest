@@ -2,6 +2,25 @@
 
 This is a take home assessment for a non-descript company for a Senior Android Developer position. After concluding the interview process this repo will be archived.
 
+## Features Implemented
+1. Basic Auth and `JWT` Persistence
+2. List the full `Product` library
+3. Create a new product in a simple UI of `EditTexts`
+4. Delete a `Product` via clicking on the item in the original list
+
+## Architectural Decisions
+There are a few patterns explored here, chosen mostly to demonstrate breadth rather than marrying myself to one architecture (and admittedly to have a bit more fun and experiment a bit).
+
+`MVVM` is the high level pattern of choice.
+
+The `ViewModels` explore two patterns:
+1. `LiveData` updates
+2. Event `Flow`
+
+I'm fond of `2` but `1` may be more familiar to most folks so I've included both.
+
+`Hilt` is used extensively to `@Inject` stored properties into `ViewModels` and injecting those `ViewModels` into their `Fragments`. In addition, it is used to create instances of `Retrofit` (and relevant API services), `Moshi`, and the two main Managers of the app `ProductUpdateManager` and `AuthenticationManager`. Those managers are used as the intersection to the services layer via the ViewModels.
+
 ## Installation
 
 Clone via SSH:
