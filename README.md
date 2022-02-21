@@ -78,3 +78,5 @@ nice to only have consumers care about the Managers themselves rather than some 
 before submission. Ideally this would be handled in an elegant fashion to allow for a more expansive application that would entail Inventory management/Search/etc.
 
 3. Testing will be reserved for Managers, and not things like `Hilt` modules, ViewModels, Fragments, or data classes.
+
+4. Cells in the `RecyclerView` have been kept streamlined, and simple. And not all properties from the API for `Products` have been added to the `data` class.
