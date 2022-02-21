@@ -15,7 +15,7 @@ interface AuthenticationDataManager {
     fun clearCurrentCredentials()
 }
 
-private class AuthenticationDataManagerImpl(
+class AuthenticationDataManagerImpl(
     private val sharedPreferences: SharedPreferences
 ): AuthenticationDataManager {
 

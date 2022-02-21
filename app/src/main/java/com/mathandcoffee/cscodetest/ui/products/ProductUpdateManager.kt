@@ -9,6 +9,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.SharedFlow
@@ -31,9 +32,10 @@ interface ProductUpdateManager {
     suspend fun deleteProduct(id: Int)
 }
 
-private class ProductUpdateManagerImpl(
+class ProductUpdateManagerImpl(
     private val authenticationManager: AuthenticationManager,
-    private val productAPIService: ProductAPIService
+    private val productAPIService: ProductAPIService,
+    private val dispatcher: CoroutineDispatcher
 ): ProductUpdateManager {
 
     private val _itemWasDeletedWithId = MutableSharedFlow<Int>()
@@ -44,7 +46,7 @@ private class ProductUpdateManagerImpl(
 
     override suspend fun getProduct(id: Int): CompletableDeferred<Product?> {
         val deferred = CompletableDeferred<Product?>()
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             val authToken = authenticationManager.currentToken()
             if (authToken == null) {
                 deferred.complete(null)
@@ -63,7 +65,7 @@ private class ProductUpdateManagerImpl(
         shippingPriceCents: Int
     ) {
         val authToken = authenticationManager.currentToken() ?: return
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             val response = productAPIService.createProduct(
                 authToken,
                 NewProductRequest("badKey", name, description, style, brand, shippingPriceCents))
@@ -75,7 +77,7 @@ private class ProductUpdateManagerImpl(
 
     override suspend fun deleteProduct(id: Int) {
         val authToken = authenticationManager.currentToken() ?: return
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             val response = productAPIService.deleteProduct(id, authToken)
             val deletedId = response.body()?.productId ?: return@withContext
             _itemWasDeletedWithId.emit(deletedId)
@@ -93,6 +95,6 @@ object ProductUpdateManagerProvider {
         authenticationManager: AuthenticationManager,
         productAPIService: ProductAPIService
     ): ProductUpdateManager {
-        return ProductUpdateManagerImpl(authenticationManager, productAPIService)
+        return ProductUpdateManagerImpl(authenticationManager, productAPIService, Dispatchers.IO)
     }
 }

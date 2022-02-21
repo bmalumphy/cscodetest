@@ -18,7 +18,7 @@ data class Product(
     @Json(name = URL_KEY)
     val url: String?,
     @Json(name = SHIPPING_PRICE_KEY)
-    val shippingPrice: String,
+    val shippingPrice: Int,
     @Json(name = PRODUCT_TYPE_KEY)
     val productType: String?
 ) {

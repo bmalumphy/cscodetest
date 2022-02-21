@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.Credentials
@@ -18,9 +19,10 @@ interface AuthenticationManager {
     fun revoke()
 }
 
-private class AuthenticationManagerImpl(
+class AuthenticationManagerImpl(
     private val authenticationAPIService: AuthenticationAPIService,
-    private val authenticationDataManager: AuthenticationDataManager
+    private val authenticationDataManager: AuthenticationDataManager,
+    private val dispatcher: CoroutineDispatcher
 ): AuthenticationManager {
 
     override fun currentToken(): String? = authenticationDataManager.getCurrentCredentials()
@@ -28,7 +30,7 @@ private class AuthenticationManagerImpl(
 
     override suspend fun login(email: String, password: String): CompletableDeferred<String> {
         val deferred = CompletableDeferred<String>()
-        withContext(Dispatchers.IO) {
+        withContext(dispatcher) {
             val credentials = Credentials.basic(email, password)
             val response = authenticationAPIService.getUserToken(credentials)
             val body = response.body()
@@ -63,6 +65,6 @@ object AuthenticationManagerProvider {
         authenticationDataManager: AuthenticationDataManager,
         authenticationAPIService: AuthenticationAPIService
     ): AuthenticationManager {
-        return AuthenticationManagerImpl(authenticationAPIService, authenticationDataManager)
+        return AuthenticationManagerImpl(authenticationAPIService, authenticationDataManager, Dispatchers.IO)
     }
 }

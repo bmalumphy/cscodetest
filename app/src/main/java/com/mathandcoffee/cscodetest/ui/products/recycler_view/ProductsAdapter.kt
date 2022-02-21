@@ -61,7 +61,7 @@ class ProductsAdapter(
         }
 
         var price = "$${product.shippingPrice}.00"
-        if (product.shippingPrice == "0") {
+        if (product.shippingPrice == 0) {
             price = "FREE"
         }
         val string = SpannableString("$name    $price")

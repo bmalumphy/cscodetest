@@ -25,7 +25,12 @@ android {
     }
 
     buildTypes {
+        debug {
+            testCoverageEnabled = true
+        }
+
         release {
+            testCoverageEnabled = true
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
@@ -39,6 +44,11 @@ android {
     }
     buildFeatures {
         viewBinding true
+    }
+    testOptions {
+        unitTests.all {
+            useJUnitPlatform()
+        }
     }
 }
 
