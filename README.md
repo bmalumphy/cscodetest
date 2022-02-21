@@ -58,7 +58,7 @@ Once in the dashboard, current implementations have the following series of oper
 Currently the API given for the assessment has some flaws (probably purposeful). `POST` to the `/product` endpoint will result in nameless products with no price, independent
 of the body for the request. In addition, there seems to be little in the way of proper 400-level responses delivered from the API. Specifically, it will not kick back a request with extraneous 
 keys in the JSON request. It is noted in the PDF description that the server may throw 500 responses on occasion, but this hadn't been viewed/confirmed nor is it clear if this is likely to occur 
-from one endpoint more than another. Currently waiting on clarification on this from the Mobile Lead.
+from one endpoint more than another.
 
 ## TODO
 
