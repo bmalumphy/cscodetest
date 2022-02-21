@@ -5,7 +5,7 @@ This is a take home assessment for a non-descript company for a Senior Android D
 ## Features Implemented
 1. Basic Auth and `JWT` Persistence
 2. List the full `Product` library
-3. Create a new product in a simple UI of `EditTexts`
+3. Create a new `Product` in a simple UI of `EditTexts`
 4. Delete a `Product` via clicking on the item in the original list
 
 ## Architectural Decisions
