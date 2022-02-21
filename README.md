@@ -58,4 +58,4 @@ nice to only have consumers care about the Managers themselves rather than some 
 2. Navigation has been kept very simple to avoid building a full service around it (Fragment Factories, etc.). Efforts will be made to ensure that no cyclic references will persist in the app
 before submission. Ideally this would be handled in an elegant fashion to allow for a more expansive application that would entail Inventory management/Search/etc.
 
-3. Testing will be reserved for ViewModels/Managers, and not things like `Hilt` modules, Fragments, or data classes.
+3. Testing will be reserved for Managers, and not things like `Hilt` modules, ViewModels, Fragments, or data classes.
