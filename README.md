@@ -44,7 +44,8 @@ from one endpoint more than another. Currently waiting on clarification on this 
 ## TODO
 
 - [x] Architectural Smoothing with Product related services/Tracking current Auth Token
-- [ ] Evaluate Creation function given API limitations, and upon fixes on the backend implementing a Fragment to allow for manual Product creations
+- [x] Evaluate Creation function given API limitations, and upon fixes on the backend implementing a Fragment to allow for manual Product creations
+  - Note that the current implementation allows for the creation of a blank product within the database, and the API's incompleteness will permit this without sending back a 4xx response. Given time constraints, this feature has no client-side checks for such things, but would normally do so in a similar way to how these cases are done in `LoginViewModel`
 - [x] Basic Unit Tests around Managers
 
 ## Tech Debt
